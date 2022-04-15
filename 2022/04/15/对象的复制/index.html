@@ -1,0 +1,196 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>对象的复制 | CBlog</title><meta name="keywords" content="博客"><meta name="author" content="CYZ"><meta name="copyright" content="CYZ"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="对象的复制与原始类型相比，对象的根本区别之一是对象是“通过引用”被存储和复制的，与原始类型值相反：字符串，数字，布尔值等 —— 始终是以“整体值”的形式被复制的。 赋值了对象的变量存储的不是对象本身，而是该对象“在内存中的地址” —— 换句话说就是对该对象的“引用”。 比如： 1234&#x2F;&#x2F; user 存储的是对象在内存的地址let user&amp;#123;    name: &quot;Toy&amp;quo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对象的复制">
+<meta property="og:url" content="http://example.com/2022/04/15/%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%A4%8D%E5%88%B6/index.html">
+<meta property="og:site_name" content="CBlog">
+<meta property="og:description" content="对象的复制与原始类型相比，对象的根本区别之一是对象是“通过引用”被存储和复制的，与原始类型值相反：字符串，数字，布尔值等 —— 始终是以“整体值”的形式被复制的。 赋值了对象的变量存储的不是对象本身，而是该对象“在内存中的地址” —— 换句话说就是对该对象的“引用”。 比如： 1234&#x2F;&#x2F; user 存储的是对象在内存的地址let user&amp;#123;    name: &quot;Toy&amp;quo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://picsum.photos/id/668/4133/2745">
+<meta property="article:published_time" content="2022-04-15T04:30:00.000Z">
+<meta property="article:modified_time" content="2022-04-15T04:31:01.631Z">
+<meta property="article:author" content="CYZ">
+<meta property="article:tag" content="博客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://picsum.photos/id/668/4133/2745"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/04/15/%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%A4%8D%E5%88%B6/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":100},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '对象的复制',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-04-15 12:31:01'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/./img/aishi.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://picsum.photos/id/668/4133/2745')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">CBlog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">对象的复制<a class="post-edit-link" href="null_posts/对象的复制.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-15T04:30:00.000Z" title="发表于 2022-04-15 12:30:00">2022-04-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-04-15T04:31:01.631Z" title="更新于 2022-04-15 12:31:01">2022-04-15</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="对象的复制"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="对象的复制"><a href="#对象的复制" class="headerlink" title="对象的复制"></a>对象的复制</h1><p>与原始类型相比，对象的根本区别之一是对象是“通过引用”被存储和复制的，与原始类型值相反：字符串，数字，布尔值等 —— 始终是以“整体值”的形式被复制的。</p>
+<p><strong>赋值了对象的变量存储的不是对象本身，而是该对象“在内存中的地址” —— 换句话说就是对该对象的“引用”。</strong></p>
+<p>比如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// user 存储的是对象在内存的地址</span></span><br><span class="line"><span class="keyword">let</span> user&#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;Toy&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当我们对对象执行操作时，比如获取一个属性<code>user.name</code>,JS引擎会查看该地址中的内容，并在实际对象执行操作。</p>
+<h2 id="对象被复制"><a href="#对象被复制" class="headerlink" title="对象被复制"></a>对象被复制</h2><p><strong>当一个对象变量被复制 —— 引用被复制，而该对象自身并没有被复制。</strong></p>
+<p>比如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> phone&#123;</span><br><span class="line">    <span class="attr">adderss</span>: <span class="string">&quot;USA&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> user = phone; <span class="comment">// 这里复制的是对象的引用</span></span><br></pre></td></tr></table></figure>
+
+<p>也就是说一个对象，被两个变量引用。并且可以通过任何一个变量来访问并修改它的内容。</p>
+<p>比如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> man&#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;LeBron&quot;</span>;</span><br><span class="line">    <span class="attr">age</span>: <span class="number">38</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> athletes = man;</span><br><span class="line">athletes.<span class="property">name</span> = <span class="string">&quot;KD&quot;</span>;</span><br><span class="line"><span class="title function_">alert</span>(man.<span class="property">name</span>); <span class="comment">// 输出KD；</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="通过引用进行比较"><a href="#通过引用进行比较" class="headerlink" title="通过引用进行比较"></a>通过引用进行比较</h2><p>当两个对象为同一对象时，两者才相等</p>
+<p>比如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;&#125;;</span><br><span class="line"><span class="keyword">let</span> b = a; <span class="comment">// 复制引用，指向同一个对象</span></span><br><span class="line"><span class="keyword">if</span>(a === b)&#123;</span><br><span class="line">    <span class="title function_">alert</span>(<span class="string">&quot;true&quot;</span>);   <span class="comment">// 输出true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>即便两个对象里面的属性相同，但因为为两个独立对象因此不相等</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;&#125;;</span><br><span class="line"><span class="keyword">let</span> b = &#123;&#125;;</span><br><span class="line"><span class="keyword">if</span>(a === b)&#123;</span><br><span class="line">    <span class="title function_">alert</span>(<span class="string">&quot;true&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="title function_">alert</span>(<span class="string">&quot;false&quot;</span>); <span class="comment">// 输出 false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="克隆对象，Object-assign"><a href="#克隆对象，Object-assign" class="headerlink" title="克隆对象，Object.assign"></a>克隆对象，Object.assign</h2><p>拷贝一个对象变量会又创建一个对相同对象的引用。</p>
+<p>原始的方法，创建一个空对象，将原有属性复制进去</p>
+<p>法一：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> star&#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;ldh&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> clone = &#123;&#125;; <span class="comment">// 空对象</span></span><br><span class="line"><span class="comment">// 将star对象的属性值复制进去</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> user)&#123;</span><br><span class="line">    clone[key] = user[key];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// clone是独立的对象</span></span><br><span class="line">clone.<span class="property">name</span> = <span class="string">&quot;Pete&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title function_">alert</span>(star.<span class="property">name</span>); <span class="comment">// 输出依然是ldh</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>法二：利用Object.assign方法</p>
+<p>语法：</p>
+<p><code>Object.assign(dest, [src1, src2, src3...])</code></p>
+<p>dest是目标对象，后面的参数是源对象</p>
+<p>从第二个开始的所有参数的属性都被拷贝到第一个参数的对象中。</p>
+<p>调用返回的是dest</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123; <span class="attr">name</span>: <span class="string">&quot;John&quot;</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> permissions1 = &#123; <span class="attr">canView</span>: <span class="literal">true</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> permissions2 = &#123; <span class="attr">canEdit</span>: <span class="literal">true</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将 permissions1 和 permissions2 中的所有属性都拷贝到 user 中</span></span><br><span class="line"><span class="title class_">Object</span>.<span class="title function_">assign</span>(user, permissions1, permissions2);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在 user = &#123; name: &quot;John&quot;, canView: true, canEdit: true &#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果被拷贝的属性的属性名已经存在，那么它会被覆盖</p>
+<h2 id="深层拷贝"><a href="#深层拷贝" class="headerlink" title="深层拷贝"></a>深层拷贝</h2><p>如被拷贝的对象属性有对象，那么这时要用到深拷贝。</p>
+<p>比如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;John&quot;</span>,</span><br><span class="line">  <span class="attr">sizes</span>: &#123;</span><br><span class="line">    <span class="attr">height</span>: <span class="number">182</span>,</span><br><span class="line">    <span class="attr">width</span>: <span class="number">50</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> clone = <span class="title class_">Object</span>.<span class="title function_">assign</span>(&#123;&#125;, user);</span><br><span class="line"></span><br><span class="line"><span class="title function_">alert</span>( user.<span class="property">sizes</span> === clone.<span class="property">sizes</span> ); <span class="comment">// true，同一个对象</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// user 和 clone 分享同一个 sizes</span></span><br><span class="line">user.<span class="property">sizes</span>.<span class="property">width</span>++;       <span class="comment">// 通过其中一个改变属性值</span></span><br><span class="line"><span class="title function_">alert</span>(clone.<span class="property">sizes</span>.<span class="property">width</span>); <span class="comment">// 51，能从另外一个看到变更的结果</span></span><br></pre></td></tr></table></figure>
+
+<p>此时可以用拷贝循环来检测每一个值，如果是对象的属性为一个对象，在复制他的结构。</p>
+<blockquote>
+<p><strong>使用 const 声明的对象也是可以被修改的</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="keyword">const</span> user&#123;</span><br><span class="line">   <span class="attr">name</span>: <span class="string">&quot;Pete&quot;</span>;</span><br><span class="line">&gt;&#125;</span><br><span class="line">&gt;user.<span class="property">name</span> = <span class="string">&quot;Toy&quot;</span>;</span><br><span class="line">&gt;<span class="comment">// 当我们将整个对象修改才会改变如 user=...</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>内容部分引用了网络文章，侵权删</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">CYZ</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/04/15/%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%A4%8D%E5%88%B6/">http://example.com/2022/04/15/%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%A4%8D%E5%88%B6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">CBlog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://picsum.photos/id/668/4133/2745" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/./img/Wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/./img/Wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/04/13/hello-world/"><img class="next-cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Hello World</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/./img/aishi.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">CYZ</div><div class="author-info__description">欢迎访问我的博客</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/CYZ99/" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="mailto:1078377113@qq.com" target="_blank" title="Email"><i class="fas fa-regular fa-anchor"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%A4%8D%E5%88%B6"><span class="toc-number">1.</span> <span class="toc-text">对象的复制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E8%A2%AB%E5%A4%8D%E5%88%B6"><span class="toc-number">1.1.</span> <span class="toc-text">对象被复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E5%BC%95%E7%94%A8%E8%BF%9B%E8%A1%8C%E6%AF%94%E8%BE%83"><span class="toc-number">1.2.</span> <span class="toc-text">通过引用进行比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%8B%E9%9A%86%E5%AF%B9%E8%B1%A1%EF%BC%8CObject-assign"><span class="toc-number">1.3.</span> <span class="toc-text">克隆对象，Object.assign</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B1%E5%B1%82%E6%8B%B7%E8%B4%9D"><span class="toc-number">1.4.</span> <span class="toc-text">深层拷贝</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/04/15/%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%A4%8D%E5%88%B6/" title="对象的复制"><img src="https://picsum.photos/id/668/4133/2745" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="对象的复制"/></a><div class="content"><a class="title" href="/2022/04/15/%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%A4%8D%E5%88%B6/" title="对象的复制">对象的复制</a><time datetime="2022-04-15T04:30:00.000Z" title="发表于 2022-04-15 12:30:00">2022-04-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/04/13/hello-world/" title="Hello World"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2022/04/13/hello-world/" title="Hello World">Hello World</a><time datetime="2022-04-12T17:38:36.363Z" title="发表于 2022-04-13 01:38:36">2022-04-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By CYZ</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
